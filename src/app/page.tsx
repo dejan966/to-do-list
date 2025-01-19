@@ -1,12 +1,11 @@
-import Image from "next/image";
-import styles from "@styles/page.module.css";
-import { Container, Heading, HStack, Text, VStack } from "@chakra-ui/react";
+import { Heading, Text, VStack } from "@chakra-ui/react";
 
 export default function Home() {
   return (
-    <VStack>
-      <Heading p='10px'>Hiiii</Heading>
-      <Text>sadsa</Text>
+    <VStack p='10'>
+      <Heading p='10px'>To Do List app</Heading>
+      <Text>This app is about showcasing a to do list. It can be usefull for when you go shopping for example. 
+      You can add new items to the list, cross them out when you have the item in your shopping cart. Additionally you can alse edit the item or delete the item.</Text>
     </VStack>
   );
 }
