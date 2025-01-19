@@ -2,11 +2,26 @@
 
 import { Button, HStack, Input } from '@chakra-ui/react'
 import { useState } from 'react'
+import { addTodo } from '@/server/todos'
+import { Toaster, toaster } from '@/components/ui/toaster'
+import getSafeError from '@/utils/safeError'
 
 const AddTodoForm = () => {
     const [name, setName] = useState('')
     const action = async (formData: FormData) => {
-        console.log(name);
+        try {
+            await addTodo(formData)
+            setName('')
+            toaster.create({
+                title: "Item successfully added",
+                type: "success"
+            })
+        } catch (error) {
+            toaster.create({
+                title: getSafeError(error).name,
+                type: "error"
+            })
+        }
     }
 
     return (
@@ -22,7 +37,8 @@ const AddTodoForm = () => {
                 <Button type='submit' disabled={name.trim() === ''}>
                     Add
                 </Button>
-            </HStack>      
+            </HStack>
+            <Toaster />      
         </form>    
     )
 }
