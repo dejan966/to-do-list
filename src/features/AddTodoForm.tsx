@@ -29,10 +29,12 @@ const AddTodoForm = () => {
             <HStack>
                 <Input
                     borderColor='gray.600'
+                    placeholder='Item'
                     name='name'
                     type='text'
                     value={name}
                     onChange={(e) => setName(e.target.value)}
+                    variant="flushed"
                 />
                 <Button type='submit' disabled={name.trim() === ''}>
                     Add

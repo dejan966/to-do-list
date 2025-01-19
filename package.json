@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@chakra-ui/react": "^3.4.0",
+    "@chakra-ui/table": "^2.1.0",
     "@emotion/react": "^11.14.0",
     "@prisma/client": "^6.2.1",
     "next": "15.1.5",

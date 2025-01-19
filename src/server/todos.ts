@@ -1,8 +1,13 @@
 'use server'
 
-import { TodoItemSchema } from '@/features/todoModels'
+import { TodoItemSchema, TodoItemsSchema } from '@/features/todoModels'
 import prismadb from '@/lib/prismadb'
 import { revalidatePath } from 'next/cache'
+
+export const getTodos = async () => {
+    const data = await prismadb.item.findMany()
+    return await TodoItemsSchema.parseAsync(data)
+}
 
 export const addTodo = async (formData: FormData) => {
     const name = formData.get('name')
