@@ -19,7 +19,7 @@ const Navigation = () => {
                 <Link fontWeight='semibold' mr='4' href='/'>
                     Home
                 </Link>
-                <Link fontWeight='semibold' mr='4' href='#'>
+                <Link fontWeight='semibold' mr='4' href='/todos'>
                     List Items
                 </Link>
             </Flex>
