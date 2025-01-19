@@ -24,3 +24,16 @@ export const addTodo = async (formData: FormData) => {
     // Revalidate cache
     revalidatePath('/todos')
 }
+
+export const completeTodo = async (todoId: string, completed: boolean) => {
+    const data = await prismadb.item.update({
+        where: { id: todoId },
+        data: { completed: !completed },
+    })
+
+    // Validate response
+    await TodoItemSchema.parseAsync(data)
+
+    // Revalidate cache
+    revalidatePath('/todos')
+}
