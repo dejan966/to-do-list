@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { TodoItem as TodoItemType } from '@/features/todoModels'
-import {  Checkbox, Input, Table } from '@chakra-ui/react'
+import {  Input, Table } from '@chakra-ui/react'
 import { completeTodo } from '@/server/todos'
 import { Toaster, toaster } from '@/components/ui/toaster'
 import getSafeError from '@/utils/safeError'
@@ -46,6 +46,7 @@ const TodoItem = ({ todo }: { todo: TodoItemType }) => {
     }
     return (
         <>
+            <Toaster />
             <Table.Row>
                 <Table.Cell>
                     <input
