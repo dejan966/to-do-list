@@ -10,7 +10,16 @@ First of all you have to run
 npm install
 ```
 
-Next you have to run the development server
+Then setup prisma
+```bash
+npx prisma generate
+```
+
+```bash
+npx prisma migrate dev --name MigrationNameHere  
+```
+
+And finally you can run the development server
 ```bash
 npm run dev
 # or
