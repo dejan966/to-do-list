@@ -5,7 +5,7 @@ import { TodoItem as TodoItemType } from '../features/todoModels';
 import { Button, HStack, Input, Kbd, Stack, Table, VStack } from '@chakra-ui/react';
 import { completeTodo, deleteTodo, editTodo } from '../server/todos';
 import { Toaster, toaster } from '../components/ui/toaster';
-import getSafeError from 'utils/safeError';
+import getSafeError from '../utils/safeError';
 import {
   ActionBarContent,
   ActionBarRoot,
