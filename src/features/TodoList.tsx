@@ -2,15 +2,18 @@
 
 import { useState } from 'react'
 import { TodoItem as TodoItemType } from '@/features/todoModels'
-import {  Button, HStack, Input, Kbd, Stack, Table } from '@chakra-ui/react'
+import {  Button, HStack, Input, Kbd, Stack, Table, VStack } from '@chakra-ui/react'
 import { completeTodo, deleteTodo, editTodo } from '@/server/todos'
 import { Toaster, toaster } from '@/components/ui/toaster'
 import getSafeError from '@/utils/safeError'
 import { ActionBarContent, ActionBarRoot, ActionBarSelectionTrigger, ActionBarSeparator } from '@/components/ui/action-bar'
 import { Checkbox } from '@/components/ui/checkbox'
 import { PaginationItems, PaginationNextTrigger, PaginationPrevTrigger, PaginationRoot } from '@/components/ui/pagination'
+import SearchTodoForm from './SearchTodoForm'
 
 const TodoList = ({ todos }: { todos: TodoItemType[] }) => {
+    const [searchString, setSearchString] = useState('')
+
     /** 
      * checkbox variables 
      */
@@ -104,6 +107,10 @@ const TodoList = ({ todos }: { todos: TodoItemType[] }) => {
     return (
         <>
             <Toaster />
+            <VStack align='start' my='2'>
+                <SearchTodoForm searchString={searchString} setSearchString={setSearchString} />
+            </VStack>
+            <hr />
             <Stack width="full" gap="5">
                 <Table.Root interactive>
                     <Table.Header>
@@ -127,23 +134,26 @@ const TodoList = ({ todos }: { todos: TodoItemType[] }) => {
                         </Table.Row>
                     </Table.Header>
                     <Table.Body>
-                        {todos.length > 0 ? 
-                            todos.slice(startRange, endRange).map((todo) => (
-                                <TodoItem 
-                                    key={todo.id} 
-                                    todo={todo} 
-                                    handleIsComplete={handleIsComplete} 
-                                    selection={selection} 
-                                    decoration={decoration}
-                                />
-                            )
-                        ) : 
-                            (
-                                <Table.Row>
-                                    <Table.Cell>No todos yet</Table.Cell>
-                                </Table.Row>
-                            )
-                        }
+                    { searchString ? 
+                        (todos.filter((todo) => todo.name.toLowerCase().includes(searchString.toLowerCase()))
+                        .map((todo) => (
+                            <TodoItem 
+                                key={todo.id} 
+                                todo={todo} 
+                                handleIsComplete={handleIsComplete} 
+                                selection={selection} 
+                                decoration={decoration}
+                            />
+                        )))
+                    : (todos.slice(startRange, endRange).map((todo) => (
+                        <TodoItem 
+                            key={todo.id} 
+                            todo={todo} 
+                            handleIsComplete={handleIsComplete} 
+                            selection={selection} 
+                            decoration={decoration}
+                        />
+                    )))}
                     </Table.Body>
                 </Table.Root>
                 <PaginationRoot count={todos.length} pageSize={pageSize} page={page} onPageChange={(e) => setPage((e.page))}>
