@@ -1,7 +1,7 @@
 'use server';
 
-import { TodoItem, TodoItemSchema, TodoItemsSchema } from '@/features/todoModels';
-import prismadb from '@/lib/prismadb';
+import { TodoItem, TodoItemSchema, TodoItemsSchema } from 'features/todoModels';
+import prismadb from 'lib/prismadb';
 import { revalidatePath } from 'next/cache';
 
 export const getTodos = async () => {
