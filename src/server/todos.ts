@@ -25,6 +25,19 @@ export const addTodo = async (formData: FormData) => {
     revalidatePath('/todos')
 }
 
+export const editTodo = async (todoId: string, todoName: string) => {
+    const data = await prismadb.item.update({
+        where: { id: todoId },
+        data: { name: todoName },
+    })
+
+    // Validate response
+    await TodoItemSchema.parseAsync(data)
+
+    // Revalidate cache
+    revalidatePath('/todos')
+}
+
 export const deleteTodo = async (todoIds: string[]) => {
     const data = await prismadb.item.deleteMany({
         where: { id: {in: todoIds} },

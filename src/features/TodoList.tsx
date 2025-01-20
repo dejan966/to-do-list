@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { TodoItem as TodoItemType } from '@/features/todoModels'
 import {  Button, Input, Kbd, Table } from '@chakra-ui/react'
-import { completeTodo, deleteTodo } from '@/server/todos'
+import { completeTodo, deleteTodo, editTodo } from '@/server/todos'
 import { Toaster, toaster } from '@/components/ui/toaster'
 import getSafeError from '@/utils/safeError'
 import { ActionBarContent, ActionBarRoot, ActionBarSelectionTrigger, ActionBarSeparator } from '@/components/ui/action-bar'
@@ -121,6 +121,22 @@ const TodoItem = ({ todo, handleIsComplete, selection, decoration }: {
 }) => {
     const [todoName, setTodoName] = useState(todo.name)
 
+    
+    const handleEdit = async (todoId: string, todoName: string) => {
+        try {
+            await editTodo(todoId, todoName)
+            toaster.create({
+                title: "Item successfully updated",
+                type: "success"
+            })
+        } catch (error) {
+            toaster.create({
+                title: getSafeError(error).name,
+                type: "error"
+            })
+        }
+    }
+
     return (
         <>
             <Table.Row>
@@ -140,7 +156,13 @@ const TodoItem = ({ todo, handleIsComplete, selection, decoration }: {
                         type='text'
                         value={todoName}
                         onChange={(e) => setTodoName(e.target.value)}
+                        disabled={!selection.includes(todo.id)}
                     />
+                </Table.Cell>
+                <Table.Cell>
+                    <Button colorPalette="green" onClick={() => {handleEdit(todo.id, todoName)}} disabled={!selection.includes(todo.id)}>
+                        Edit
+                    </Button>
                 </Table.Cell>
             </Table.Row>
         </>
