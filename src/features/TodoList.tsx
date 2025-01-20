@@ -11,8 +11,13 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { PaginationItems, PaginationNextTrigger, PaginationPrevTrigger, PaginationRoot } from '@/components/ui/pagination'
 
 const TodoList = ({ todos }: { todos: TodoItemType[] }) => {
-    // checkbox variables
-    const [selection, setSelection] = useState<string[]>([])
+    /** 
+     * checkbox variables 
+     */
+    // see if any of todos are completed
+    const [selection, setSelection] = useState<string[]>(todos.filter((todo) => todo.completed == true).map((todo) => {
+        return todo.id;
+    }))
     const hasSelection = selection.length > 0
     const indeterminate = hasSelection && selection.length < todos.length
 
