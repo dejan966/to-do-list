@@ -8,6 +8,8 @@ import getSafeError from '@/utils/safeError'
 
 const AddTodoForm = () => {
     const [name, setName] = useState('')
+
+    // add item to db
     const action = async (formData: FormData) => {
         try {
             await addTodo(formData)

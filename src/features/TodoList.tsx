@@ -11,6 +11,7 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { PaginationItems, PaginationNextTrigger, PaginationPrevTrigger, PaginationRoot } from '@/components/ui/pagination'
 
 const TodoList = ({ todos }: { todos: TodoItemType[] }) => {
+    // checkbox variables
     const [selection, setSelection] = useState<string[]>([])
     const hasSelection = selection.length > 0
     const indeterminate = hasSelection && selection.length < todos.length
@@ -21,6 +22,7 @@ const TodoList = ({ todos }: { todos: TodoItemType[] }) => {
     const startRange = (page - 1) * pageSize
     const endRange = startRange + pageSize
 
+    // change in db whether it's check or not
     const handleIsComplete = async (todo: TodoItemType, changes: any) => {
         try {
             await completeTodo(todo.id, todo.completed)
@@ -37,6 +39,7 @@ const TodoList = ({ todos }: { todos: TodoItemType[] }) => {
         }
     }
     
+    // check/uncheck all items at once in db
     const handleMultipleIsComplete = async (changes: any) => {
         try {
             todos.map(async (todo) => (
@@ -53,6 +56,7 @@ const TodoList = ({ todos }: { todos: TodoItemType[] }) => {
         }
     }
 
+    // css styling for checked items
     const decoration = (value: boolean) => {
         if(!value) {
             return 'none'
@@ -61,6 +65,7 @@ const TodoList = ({ todos }: { todos: TodoItemType[] }) => {
         }
     }
 
+    // delete selected item/items in db
     const deleteItems = (ids: string[]) => {
         try {
             deleteTodo(ids);
