@@ -12,6 +12,7 @@ import { Checkbox } from '@/components/ui/checkbox'
 const TodoList = ({ todos }: { todos: TodoItemType[] }) => {
     const [selection, setSelection] = useState<string[]>([])
     const hasSelection = selection.length > 0
+    const indeterminate = hasSelection && selection.length < todos.length
 
     const handleIsComplete = async (todo: TodoItemType, changes: any) => {
         try {
@@ -20,6 +21,22 @@ const TodoList = ({ todos }: { todos: TodoItemType[] }) => {
                 changes.checked
                   ? [...prev, todo.id]
                   : selection.filter((id) => id !== todo.id),
+            )
+        } catch (error) {
+            toaster.create({
+                title: getSafeError(error).name,
+                type: "error"
+            })
+        }
+    }
+    
+    const handleMultipleIsComplete = async (changes: any) => {
+        try {
+            todos.map(async (todo) => (
+                await completeTodo(todo.id, todo.completed)
+            ))
+            setSelection(
+                changes.checked ? todos.map((todo) => todo.id) : [],
             )
         } catch (error) {
             toaster.create({
@@ -71,6 +88,23 @@ const TodoList = ({ todos }: { todos: TodoItemType[] }) => {
         <>
             <Toaster />
             <Table.Root interactive>
+                <Table.Header>
+                    <Table.Row height={9}>
+                        <Table.ColumnHeader>
+                            <Checkbox
+                                top="1"
+                                aria-label="Select row"
+                                checked={indeterminate ? "indeterminate" : selection.length > 0}
+                                onCheckedChange={(changes) => {
+                                    handleMultipleIsComplete(changes)
+                                }}
+                            />
+                        </Table.ColumnHeader>
+                        <Table.ColumnHeader>
+                            Item
+                        </Table.ColumnHeader>
+                    </Table.Row>
+                </Table.Header>
                 <Table.Body>
                     {todos.length > 0 ? 
                         todos.map((todo) => (
