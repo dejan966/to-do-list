@@ -1,6 +1,6 @@
 'use server'
 
-import { TodoItemSchema, TodoItemsSchema } from '@/features/todoModels'
+import { TodoItem, TodoItemSchema, TodoItemsSchema } from '@/features/todoModels'
 import prismadb from '@/lib/prismadb'
 import { revalidatePath } from 'next/cache'
 
@@ -39,7 +39,7 @@ export const editTodo = async (todoId: string, todoName: string) => {
 }
 
 export const deleteTodo = async (todoIds: string[]) => {
-    const data = await prismadb.item.deleteMany({
+    await prismadb.item.deleteMany({
         where: { id: {in: todoIds} },
     })
 
@@ -50,7 +50,7 @@ export const deleteTodo = async (todoIds: string[]) => {
     })
 
     // Validate response
-    deletedItems.map(async (item) => (
+    deletedItems.map(async (item: TodoItem) => (
         await TodoItemSchema.parseAsync(item)
     ))
 

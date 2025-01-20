@@ -10,6 +10,7 @@ import { ActionBarContent, ActionBarRoot, ActionBarSelectionTrigger, ActionBarSe
 import { Checkbox } from '@/components/ui/checkbox'
 import { PaginationItems, PaginationNextTrigger, PaginationPrevTrigger, PaginationRoot } from '@/components/ui/pagination'
 import SearchTodoForm from './SearchTodoForm'
+import { CheckedState } from '@zag-js/checkbox'
 
 const TodoList = ({ todos }: { todos: TodoItemType[] }) => {
     const [searchString, setSearchString] = useState('')
@@ -46,7 +47,9 @@ const TodoList = ({ todos }: { todos: TodoItemType[] }) => {
     const endRange = startRange + pageSize
 
     // change in db whether it's check or not
-    const handleIsComplete = async (todo: TodoItemType, changes: any) => {
+    const handleIsComplete = async (todo: TodoItemType, changes: {
+        checked: CheckedState
+    }) => {
         try {
             await completeTodo(todo.id, todo.completed)
             setSelection((prev) =>
@@ -63,7 +66,9 @@ const TodoList = ({ todos }: { todos: TodoItemType[] }) => {
     }
     
     // check/uncheck all items at once in db
-    const handleMultipleIsComplete = async (changes: any) => {
+    const handleMultipleIsComplete = async (changes: {
+    checked: CheckedState;
+}) => {
         try {
             todos.map(async (todo) => (
                 await completeTodo(todo.id, todo.completed)
@@ -201,7 +206,9 @@ const TodoItem = ({ todo, handleIsComplete, selection, decoration }: {
     todo: TodoItemType, 
     handleIsComplete: (
         todo: TodoItemType,
-        changes: any
+        changes: {
+    checked: CheckedState;
+}
       ) => void,
     selection: string[],
     decoration: (

@@ -1,7 +1,6 @@
 import Image from 'next/image'
 import { Link } from "@chakra-ui/react"
-import styles from "@styles/page.module.css";
-import { Box, Flex } from '@chakra-ui/react';
+import { Flex } from '@chakra-ui/react'
 
 const Navigation = () => {
     return (
