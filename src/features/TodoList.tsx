@@ -42,7 +42,8 @@ const TodoList = ({ todos }: { todos: TodoItemType[] }) => {
   const hasSelection = selection.length > 0;
 
   // check if all items are selected - false means every item is selected
-  const indeterminate = hasSelection && selection.length < todos.length;
+  const indeterminate = searchString ? hasSelection && selection.length < todos.filter((todo) => todo.name.toLowerCase()
+  .includes(searchString.toLowerCase())).length : hasSelection && selection.length < todos.length;
 
   /**
    * Pagination
@@ -87,8 +88,9 @@ const TodoList = ({ todos }: { todos: TodoItemType[] }) => {
         todos.filter((todo) => todo.name.toLowerCase()
         .includes(searchString.toLowerCase()))
         .map(async (todo) => await completeTodo(todo.id, todo.completed));
+        
         setSelection(changes.checked ? todos.filter((todo) => todo.name.toLowerCase()
-          .includes(searchString.toLowerCase())).map((todo) => todo.id) : []);
+        .includes(searchString.toLowerCase())).map((todo) => todo.id) : []);
         return;
       }
       todos.map(async (todo) => await completeTodo(todo.id, todo.completed));
