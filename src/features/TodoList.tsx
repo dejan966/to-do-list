@@ -103,6 +103,9 @@ const TodoList = ({ todos }: { todos: TodoItemType[] }) => {
                         <Table.ColumnHeader>
                             Item
                         </Table.ColumnHeader>
+                        <Table.ColumnHeader>
+                            Action
+                        </Table.ColumnHeader>
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
