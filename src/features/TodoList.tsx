@@ -2,17 +2,24 @@
 
 import { useState } from 'react'
 import { TodoItem as TodoItemType } from '@/features/todoModels'
-import {  Button, Input, Kbd, Table } from '@chakra-ui/react'
+import {  Button, HStack, Input, Kbd, Stack, Table } from '@chakra-ui/react'
 import { completeTodo, deleteTodo, editTodo } from '@/server/todos'
 import { Toaster, toaster } from '@/components/ui/toaster'
 import getSafeError from '@/utils/safeError'
 import { ActionBarContent, ActionBarRoot, ActionBarSelectionTrigger, ActionBarSeparator } from '@/components/ui/action-bar'
 import { Checkbox } from '@/components/ui/checkbox'
+import { PaginationItems, PaginationNextTrigger, PaginationPrevTrigger, PaginationRoot } from '@/components/ui/pagination'
 
 const TodoList = ({ todos }: { todos: TodoItemType[] }) => {
     const [selection, setSelection] = useState<string[]>([])
     const hasSelection = selection.length > 0
     const indeterminate = hasSelection && selection.length < todos.length
+
+    // pagination
+    const pageSize = 9
+    const [page, setPage] = useState(1)
+    const startRange = (page - 1) * pageSize
+    const endRange = startRange + pageSize
 
     const handleIsComplete = async (todo: TodoItemType, changes: any) => {
         try {
@@ -87,58 +94,68 @@ const TodoList = ({ todos }: { todos: TodoItemType[] }) => {
     return (
         <>
             <Toaster />
-            <Table.Root interactive>
-                <Table.Header>
-                    <Table.Row height={9}>
-                        <Table.ColumnHeader>
-                            <Checkbox
-                                top="1"
-                                aria-label="Select row"
-                                checked={indeterminate ? "indeterminate" : selection.length > 0}
-                                onCheckedChange={(changes) => {
-                                    handleMultipleIsComplete(changes)
-                                }}
-                            />
-                        </Table.ColumnHeader>
-                        <Table.ColumnHeader>
-                            Item
-                        </Table.ColumnHeader>
-                        <Table.ColumnHeader>
-                            Action
-                        </Table.ColumnHeader>
-                    </Table.Row>
-                </Table.Header>
-                <Table.Body>
-                    {todos.length > 0 ? 
-                        todos.map((todo) => (
-                            <TodoItem 
-                                key={todo.id} 
-                                todo={todo} 
-                                handleIsComplete={handleIsComplete} 
-                                selection={selection} 
-                                decoration={decoration}
-                            />
-                        )
-                    ) : 
-                        (
-                            <Table.Row>
-                                <Table.Cell>No todos yet</Table.Cell>
-                            </Table.Row>
-                        )
-                    }
-                </Table.Body>
-            </Table.Root>
-            <ActionBarRoot open={hasSelection}>
-                <ActionBarContent>
-                <ActionBarSelectionTrigger>
-                    {selection.length} selected
-                </ActionBarSelectionTrigger>
-                <ActionBarSeparator />
-                <Button colorPalette="red" size="sm" onClick={() => deleteItems(selection)}>
-                    Delete <Kbd>⌫</Kbd>
-                </Button>
-                </ActionBarContent>
-            </ActionBarRoot>
+            <Stack width="full" gap="5">
+                <Table.Root interactive>
+                    <Table.Header>
+                        <Table.Row height={9}>
+                            <Table.ColumnHeader>
+                                <Checkbox
+                                    top="1"
+                                    aria-label="Select row"
+                                    checked={indeterminate ? "indeterminate" : selection.length > 0}
+                                    onCheckedChange={(changes) => {
+                                        handleMultipleIsComplete(changes)
+                                    }}
+                                />
+                            </Table.ColumnHeader>
+                            <Table.ColumnHeader>
+                                Item
+                            </Table.ColumnHeader>
+                            <Table.ColumnHeader>
+                                Action
+                            </Table.ColumnHeader>
+                        </Table.Row>
+                    </Table.Header>
+                    <Table.Body>
+                        {todos.length > 0 ? 
+                            todos.slice(startRange, endRange).map((todo) => (
+                                <TodoItem 
+                                    key={todo.id} 
+                                    todo={todo} 
+                                    handleIsComplete={handleIsComplete} 
+                                    selection={selection} 
+                                    decoration={decoration}
+                                />
+                            )
+                        ) : 
+                            (
+                                <Table.Row>
+                                    <Table.Cell>No todos yet</Table.Cell>
+                                </Table.Row>
+                            )
+                        }
+                    </Table.Body>
+                </Table.Root>
+                <PaginationRoot count={todos.length} pageSize={pageSize} page={page} onPageChange={(e) => setPage((e.page))}>
+                    <HStack wrap="wrap">
+                        <PaginationPrevTrigger />
+                        <PaginationItems />
+                        <PaginationNextTrigger />
+                    </HStack>
+                </PaginationRoot>
+                <ActionBarRoot open={hasSelection}>
+                    <ActionBarContent>
+                    <ActionBarSelectionTrigger>
+                        {selection.length} selected
+                    </ActionBarSelectionTrigger>
+                    <ActionBarSeparator />
+                    <Button colorPalette="red" size="sm" onClick={() => deleteItems(selection)}>
+                        Delete <Kbd>⌫</Kbd>
+                    </Button>
+                    </ActionBarContent>
+                </ActionBarRoot>
+            </Stack>
+            
         </>
     )
 }
