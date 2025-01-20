@@ -17,17 +17,32 @@ const TodoList = ({ todos }: { todos: TodoItemType[] }) => {
     /** 
      * checkbox variables 
      */
+
     // see if any of todos are completed
     const [selection, setSelection] = useState<string[]>(todos.filter((todo) => todo.completed == true).map((todo) => {
         return todo.id;
     }))
+
+    // check if any item is selected
     const hasSelection = selection.length > 0
+
+    // check if all items are selected - false means every item is selected
     const indeterminate = hasSelection && selection.length < todos.length
 
-    // pagination
+    /**
+     * Pagination
+     */
+    
+    // number of items per page
     const pageSize = 9
+
+    // current page
     const [page, setPage] = useState(1)
+    
+    // index start
     const startRange = (page - 1) * pageSize
+    
+    // index end
     const endRange = startRange + pageSize
 
     // change in db whether it's check or not

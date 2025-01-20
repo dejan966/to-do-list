@@ -13,7 +13,7 @@ const Navigation = () => {
             justifyContent='space-between'
         >
             <Link href='/'>
-                <Image src='/window.svg' alt='Window' width={63} height={37} />
+                <Image src='/globe.svg' alt='Window' width={63} height={37} />
             </Link>
             <Flex alignItems='center' justifyContent='center'>
                 <Link fontWeight='semibold' mr='4' href='/'>
