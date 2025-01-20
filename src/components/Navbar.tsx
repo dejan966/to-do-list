@@ -6,15 +6,12 @@ const Navigation = () => {
   return (
     <Flex
       top="5"
-      height="10vh"
+      height="8vh"
       boxShadow="0 4px 12px 0 rgba(0, 0, 0, 0.05)"
       flexDir="row"
-      justifyContent="space-between"
+      justifyContent='flex-end'
     >
-      <Link href="/">
-        <Image src="/globe.svg" alt="Window" width={63} height={37} />
-      </Link>
-      <Flex alignItems="center" justifyContent="center">
+      <Flex >
         <Link fontWeight="semibold" mr="4" href="/">
           Home
         </Link>

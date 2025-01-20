@@ -83,6 +83,14 @@ const TodoList = ({ todos }: { todos: TodoItemType[] }) => {
   // check/uncheck all items at once in db
   const handleMultipleIsComplete = async (changes: { checked: CheckedState }) => {
     try {
+      if(searchString) {
+        todos.filter((todo) => todo.name.toLowerCase()
+        .includes(searchString.toLowerCase()))
+        .map(async (todo) => await completeTodo(todo.id, todo.completed));
+        setSelection(changes.checked ? todos.filter((todo) => todo.name.toLowerCase()
+          .includes(searchString.toLowerCase())).map((todo) => todo.id) : []);
+        return;
+      }
       todos.map(async (todo) => await completeTodo(todo.id, todo.completed));
       setSelection(changes.checked ? todos.map((todo) => todo.id) : []);
     } catch (error) {
