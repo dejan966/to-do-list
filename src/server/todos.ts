@@ -5,7 +5,7 @@ import prismadb from '@/lib/prismadb'
 import { revalidatePath } from 'next/cache'
 
 export const getTodos = async () => {
-    const data = await prismadb.item.findMany()
+    const data = await prismadb.item.findMany({ orderBy: { id: 'asc' }})
     return await TodoItemsSchema.parseAsync(data)
 }
 
