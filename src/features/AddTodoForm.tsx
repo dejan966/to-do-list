@@ -2,9 +2,9 @@
 
 import { Button, HStack, Input } from '@chakra-ui/react';
 import { useState } from 'react';
-import { addTodo } from 'server/todos';
-import { Toaster, toaster } from 'components/ui/toaster';
-import getSafeError from 'utils/safeError';
+import { addTodo } from '../server/todos';
+import { Toaster, toaster } from '../components/ui/toaster';
+import getSafeError from '../utils/safeError';
 
 const AddTodoForm = () => {
   const [name, setName] = useState('');

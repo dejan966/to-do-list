@@ -1,24 +1,24 @@
 'use client';
 
 import { useState } from 'react';
-import { TodoItem as TodoItemType } from 'features/todoModels';
+import { TodoItem as TodoItemType } from '../features/todoModels';
 import { Button, HStack, Input, Kbd, Stack, Table, VStack } from '@chakra-ui/react';
-import { completeTodo, deleteTodo, editTodo } from 'server/todos';
-import { Toaster, toaster } from 'components/ui/toaster';
+import { completeTodo, deleteTodo, editTodo } from '../server/todos';
+import { Toaster, toaster } from '../components/ui/toaster';
 import getSafeError from 'utils/safeError';
 import {
   ActionBarContent,
   ActionBarRoot,
   ActionBarSelectionTrigger,
   ActionBarSeparator,
-} from 'components/ui/action-bar';
-import { Checkbox } from 'components/ui/checkbox';
+} from '../components/ui/action-bar';
+import { Checkbox } from '../components/ui/checkbox';
 import {
   PaginationItems,
   PaginationNextTrigger,
   PaginationPrevTrigger,
   PaginationRoot,
-} from 'components/ui/pagination';
+} from '../components/ui/pagination';
 import SearchTodoForm from './SearchTodoForm';
 import { CheckedState } from '@zag-js/checkbox';
 

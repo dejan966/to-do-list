@@ -1,7 +1,7 @@
-import AddTodoForm from 'features/AddTodoForm';
+import AddTodoForm from '../../features/AddTodoForm';
 import { Container, VStack, Text } from '@chakra-ui/react';
-import TodoList from 'features/TodoList';
-import { getTodos } from 'server/todos';
+import TodoList from '../../features/TodoList';
+import { getTodos } from '../../server/todos';
 
 const TodosPage = async () => {
   const todos = await getTodos();
